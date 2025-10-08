@@ -1,0 +1,4 @@
+username,password,score,incorrect_words_json
+kashish,12345,6,"{""zealous"": 1, ""frugal"": 3, ""brevity"": 2, ""ambiguous"": 2, ""gregarious"": 1, ""prudent"": 2, ""obsolete"": 1, ""keen"": 2, ""meticulous"": 2, ""cry"": 1, ""benevolent"": 1, ""candid"": 1, ""eloquent"": 1, ""notorious"": 1, ""happy"": 1, ""lucid"": 1, ""vigilant"": 1}"
+saniya,67890,9,"{""happy"": 1, ""jubilant"": 1, ""gregarious"": 1, ""prudent"": 1, ""keen"": 1, ""stoic"": 1}"
+vansh,123,21,"{""gregarious"": 1, ""happy"": 1, ""meticulous"": 1, ""obsolete"": 1}"
