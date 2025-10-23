@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Choose Quiz</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='choose_quiz.css') }}">
+</head>
+<body class="qz-body">
+    <header class="qz-header">
+        <h1 class="qz-title">🧠 Vocabulary Quiz</h1>
+    </header>
+
+    <main class="qz-main">
+        <div class="qz-container">
+            <h2>Choose number of questions:</h2>
+            <div class="qz-choice-buttons">
+                {% for opt in QUIZ_OPTIONS %}
+                    <a href="{{ url_for('quiz') }}?num={{ opt }}">
+                        <button class="qz-choice-btn">{{ opt }} Questions</button>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+    </main>
+
+    <footer class="qz-footer">
+        © 2025 Vocabulary Quiz
+    </footer>
+</body>
+</html>

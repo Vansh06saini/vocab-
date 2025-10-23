@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Leaderboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='leaderboard.css') }}">
+</head>
+<body class="lb-unique-body">
+  <div class="lb-unique-container">
+
+    <header class="lb-unique-header">
+      <h1 class="lb-unique-title">🏆 Leaderboard</h1>
+      <p class="lb-unique-sub">Top scorers in the Vocabulary Quiz</p>
+    </header>
+
+    <main class="lb-unique-main">
+      {% if not leaderboard %}
+        <div class="lb-unique-empty">
+          <p>No scores yet. Take some quizzes to appear here! 🎯</p>
+        </div>
+      {% else %}
+        <table class="lb-unique-table">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>User</th>
+              <th>Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for user, score in leaderboard %}
+            <tr class="{% if user == current_user %}lb-unique-current{% endif %}">
+              <td>{{ loop.index }}</td>
+              <td>{{ user }}</td>
+              <td>{{ score }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% endif %}
+    </main>
+
+    <footer class="lb-unique-footer">
+      <a href="{{ url_for('index') }}" class="lb-unique-back">⬅ Back to Menu</a>
+    </footer>
+
+  </div>
+    <script src="{{ url_for('static', filename='leaderboard.js') }}"></script>
+
+</body>
+</html>

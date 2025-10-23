@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Lookup</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='lookup.css') }}">
+</head>
+<body class="lookup-body-unique">
+
+    <div class="lookup-wrapper-unique">
+
+        <!-- Header -->
+        <header class="lookup-header-unique">
+            <h1>🔍 Word Lookup</h1>
+            <p>Welcome, <span>{{ current_user }}</span> | Score: <span>{{ user_score }}</span></p>
+        </header>
+
+        <!-- Search Card -->
+        <div class="lookup-card-unique">
+            <form class="lookup-form-unique" method="POST" action="{{ url_for('lookup') }}">
+                <input type="text" name="word" class="lookup-input-unique" placeholder="Enter a word..." required>
+                <button type="submit" class="lookup-btn-unique">Search</button>
+            </form>
+
+            {% if word %}
+            <div class="lookup-result-unique">
+                <h2 class="lookup-word-unique">{{ word }}</h2>
+                <div class="lookup-boxes-unique">
+
+                    <div class="lookup-box-unique">
+                        <h3>Meaning</h3>
+                        <p>{{ meaning }}</p>
+                    </div>
+
+                    <div class="lookup-box-unique">
+                        <h3>Synonyms</h3>
+                        <p>{{ synonyms }}</p>
+                    </div>
+
+                    <div class="lookup-box-unique">
+                        <h3>Antonyms</h3>
+                        <p>{{ antonyms }}</p>
+                    </div>
+
+                </div>
+            </div>
+            {% endif %}
+
+            <a href="{{ url_for('index') }}" class="lookup-back-btn-unique">⬅ Back to Menu</a>
+        </div>
+
+        <footer class="lookup-footer-unique">
+            <p>© 2025 Vocabulary App | Enhance your language every day</p>
+        </footer>
+
+    </div>
+
+</body>
+</html>

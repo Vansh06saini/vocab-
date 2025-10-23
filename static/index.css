@@ -1,0 +1,125 @@
+/* ---------- RESET ---------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* ---------- BODY & BACKGROUND ---------- */
+.mm-body {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(120deg, #4e34b6, #6c63ff, #8c7eff);
+    background-size: 300% 300%;
+    animation: gradientShift 10s ease infinite;
+    color: #fff;
+}
+
+/* ---------- HEADER ---------- */
+.mm-header {
+    text-align: center;
+    padding: 40px 20px 10px;
+}
+
+.mm-welcome {
+    font-size: 2.8em;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.mm-score {
+    font-size: 1.3em;
+    color: #d1c4ff;
+    margin-top: 8px;
+}
+
+/* ---------- MAIN CONTENT ---------- */
+.mm-main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+/* ---------- MENU GRID ---------- */
+.mm-menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 25px;
+    width: 80%;
+    max-width: 1000px;
+}
+
+/* ---------- BUTTONS ---------- */
+.mm-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(90deg, #7f66ff, #b69eff);
+    color: #fff;
+    padding: 25px 0;
+    border-radius: 18px;
+    text-decoration: none;
+    font-size: 1.4em;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+}
+
+.mm-btn:hover {
+    transform: scale(1.05);
+    background: linear-gradient(90deg, #b69eff, #7f66ff);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+}
+
+/* ---------- EXIT BUTTON ---------- */
+.mm-exit-btn {
+    background: linear-gradient(90deg, #b69eff, #7f66ff);
+}
+
+.mm-exit-btn:hover {
+    background: linear-gradient(90deg, #ff9966, #ff5e62);
+}
+
+/* ---------- FOOTER ---------- */
+.mm-footer {
+    text-align: center;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    font-size: 0.95em;
+    color: #e0d9ff;
+    backdrop-filter: blur(10px);
+}
+
+/* ---------- ANIMATED BACKGROUND ---------- */
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 768px) {
+    .mm-welcome {
+        font-size: 2.2em;
+    }
+    .mm-btn {
+        font-size: 1.2em;
+        padding: 20px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .mm-welcome {
+        font-size: 1.8em;
+    }
+    .mm-btn {
+        font-size: 1.1em;
+        padding: 18px 0;
+    }
+}

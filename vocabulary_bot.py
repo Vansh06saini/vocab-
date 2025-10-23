@@ -161,7 +161,7 @@ class VocabularyBot:
         print(f"\n🎯 Quiz complete! You scored {score} points. Total: {user['score']}")
 
     # --- Lookup ---
-    def display_lookup_menu(self):
+    def display_lookup_menu(self, word=None):
         word = input("\nEnter word to look up: ").strip()
         if not word:
             return

@@ -8,4 +8,4 @@ WORDS_FILE = "words.csv"
 API_URL = "https://api.dictionaryapi.dev/api/v2/entries/en/"
 
 # Quiz settings
-QUIZ_OPTIONS = [10, 15, 20]
+QUIZ_OPTIONS = [5, 10, 15]

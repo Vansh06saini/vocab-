@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Menu</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+</head>
+<body class="mm-body">
+    <header class="mm-header">
+        <h1 class="mm-welcome">Welcome, {{ current_user }}</h1>
+        <p class="mm-score">Total Score: {{ user_score }}</p>
+    </header>
+
+    <main class="mm-main">
+        <div class="mm-menu-grid">
+            <a href="{{ url_for('choose_quiz') }}" class="mm-btn">🧠 Take Quiz</a>
+            <a href="{{ url_for('lookup') }}" class="mm-btn">📖 Look Up a Word</a>
+            <a href="{{ url_for('feedback') }}" class="mm-btn">💬 View Feedback</a>
+            <a href="{{ url_for('leaderboard') }}" class="mm-btn">🏆 Leaderboard</a>
+            <a href="{{ url_for('logout') }}" class="mm-btn mm-exit-btn">🚪 Exit</a>
+
+
+        </div>
+    </main>
+
+    <footer class="mm-footer">
+        <p>© 2025 Vocabulary App | Learn Smarter Everyday</p>
+    </footer>
+</body>
+</html>

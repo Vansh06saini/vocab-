@@ -1,0 +1,143 @@
+/* ---------- RESET ---------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* ---------- BODY ---------- */
+.lb-unique-body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(120deg, #4e34b6, #6c63ff, #8c7eff);
+    background-size: 300% 300%;
+    animation: gradientShift 12s ease infinite; 
+    color: #fff;
+}
+
+/* ---------- CONTAINER ---------- */
+.lb-unique-container {
+    width: 90%;
+    max-width: 900px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+/* ---------- HEADER ---------- */
+.lb-unique-header {
+    text-align: center;
+    padding: 30px 20px 10px;
+}
+
+.lb-unique-title {
+    font-size: 2.5em;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.lb-unique-sub {
+    font-size: 1.1em;
+    color: #d1c4ff;
+}
+
+/* ---------- TABLE ---------- */
+.lb-unique-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+.lb-unique-table th,
+.lb-unique-table td {
+    padding: 15px 20px;
+    text-align: left;
+}
+
+.lb-unique-table thead {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.lb-unique-table th {
+    font-size: 1.1em;
+}
+
+.lb-unique-table tbody tr {
+    background: rgba(255, 255, 255, 0.05);
+    transition: background 0.3s ease;
+}
+
+.lb-unique-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.lb-unique-current {
+    font-weight: 700;
+    background: rgba(255, 255, 255, 0.25) !important;
+}
+
+/* ---------- EMPTY MESSAGE ---------- */
+.lb-unique-empty {
+    padding: 40px 20px;
+    text-align: center;
+    font-size: 1.2em;
+    color: #fff;
+}
+
+/* ---------- FOOTER ---------- */
+.lb-unique-footer {
+    text-align: center;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.lb-unique-back {
+    text-decoration: none;
+    color: #fff;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 12px;
+    background: linear-gradient(90deg, #7f66ff, #b69eff);
+    transition: all 0.3s ease;
+}
+
+.lb-unique-back:hover {
+    background: linear-gradient(90deg, #b69eff, #7f66ff);
+    transform: scale(1.05);
+}
+
+/* ---------- ANIMATED BACKGROUND ---------- */
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 768px) {
+    .lb-unique-title {
+        font-size: 2em;
+    }
+    .lb-unique-table th, .lb-unique-table td {
+        padding: 12px 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .lb-unique-title {
+        font-size: 1.6em;
+    }
+    .lb-unique-table th, .lb-unique-table td {
+        font-size: 0.9em;
+        padding: 10px 5px;
+    }
+    .lb-unique-back {
+        padding: 8px 16px;
+        font-size: 0.9em;
+    }
+}

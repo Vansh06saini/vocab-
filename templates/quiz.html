@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vocabulary Quiz</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='quiz.css') }}">
+</head>
+<body class="qz-body">
+    <header class="qz-header">
+        <h1 class="qz-title">🧠 Vocabulary Quiz</h1>
+        <div class="qz-user-info">
+            <p>Welcome, <span>{{ current_user }}</span></p>
+            <p>Total Score: <span id="score-display">{{ user_score }}</span></p>
+        </div>
+    </header>
+
+    <main class="qz-main">
+        <div class="qz-container">
+
+            <!-- Quiz Question -->
+            <div class="qz-question-container" {% if not quiz %}style="display:none"{% endif %}>
+                <div class="qz-question">
+                    <h2 id="question-text"></h2>
+                </div>
+                <div class="qz-options">
+                    <button class="qz-option">A</button>
+                    <button class="qz-option">B</button>
+                    <button class="qz-option">C</button>
+                    <button class="qz-option">D</button>
+                </div>
+                <div class="qz-next">
+                    <button class="qz-next-btn">Next ➜</button>
+                </div>
+            </div>
+
+            <!-- If no quiz selected -->
+            {% if not quiz %}
+            <div class="qz-quiz-choice">
+                <h2>Choose number of questions:</h2>
+                <div class="qz-choice-buttons">
+                    {% for opt in QUIZ_OPTIONS %}
+                        <a href="{{ url_for('quiz') }}?num={{ opt }}">
+                            <button class="qz-choice-btn">{{ opt }} Questions</button>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+        </div>
+    </main>
+
+    <footer class="qz-footer">
+        © 2025 Vocabulary Quiz
+    </footer>
+
+    {% if quiz %}
+    <script>
+        let questions = {{ quiz|tojson }};
+        let currentIndex = 0;
+        let userScore = {{ user_score }};
+    </script>
+    <script src="{{ url_for('static', filename='quiz.js') }}"></script>
+    <script>
+        loadQuestion();
+    </script>
+    {% endif %}
+</body>
+</html>

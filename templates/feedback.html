@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Feedback — Most Missed Words</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='feedback.css') }}">
+</head>
+<body class="fb-unique-body">
+  <div class="fb-unique-shell">
+
+    <header class="fb-unique-header">
+      <div class="fb-unique-head-left">
+        <h1 class="fb-unique-title">💬 Most Missed Words</h1>
+        <p class="fb-unique-sub">Practice these words — you missed them most often.</p>
+      </div>
+
+      <div class="fb-unique-head-right">
+        <p class="fb-unique-user">User: <strong>{{ current_user }}</strong></p>
+        <a href="{{ url_for('index') }}" class="fb-unique-back">⬅ Back to Menu</a>
+      </div>
+    </header>
+
+    <main class="fb-unique-main">
+      {% if not missed_words %}
+        <div class="fb-unique-empty">
+          <p>No challenging words yet — great job! 🎉</p>
+          <p class="fb-unique-empty-sub">Take a quiz to find out which words to practice.</p>
+        </div>
+      {% else %}
+        <section class="fb-unique-list-wrap">
+          <ol class="fb-unique-list">
+            {% for word, count in missed_words %}
+              <li class="fb-unique-item">
+                <div class="fb-unique-item-word">{{ word }}</div>
+                <div class="fb-unique-item-count">missed <strong>{{ count }}</strong> time{{ "s" if count != 1 else "" }}</div>
+              </li>
+            {% endfor %}
+          </ol>
+          <p class="fb-unique-note">Showing top {{ missed_words|length }} word{{ "s" if missed_words|length != 1 else "" }} — keep practicing!</p>
+        </section>
+      {% endif %}
+    </main>
+
+    <footer class="fb-unique-footer">
+      <p>© 2025 Vocabulary App</p>
+    </footer>
+  </div>
+  <script src="{{ url_for('static', filename='feedback.js') }}"></script>
+
+</body>
+</html>

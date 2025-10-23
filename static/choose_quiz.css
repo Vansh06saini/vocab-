@@ -1,0 +1,45 @@
+.qz-body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+.qz-header {
+    background-color: #4e34b6;
+    color: white;
+    padding: 20px;
+}
+
+.qz-title {
+    margin: 0;
+}
+
+.qz-main {
+    margin: 30px auto;
+    width: 80%;
+}
+
+.qz-choice-buttons button {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+    background-color: #4e34b6;
+    color: white;
+    transition: background 0.3s;
+}
+
+.qz-choice-buttons button:hover {
+    background-color: #3b2890;
+}
+
+.qz-footer {
+    margin-top: 40px;
+    padding: 15px;
+    background-color: #4e34b6;
+    color: white;
+}
