@@ -6,55 +6,55 @@
     <title>Word Lookup</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='lookup.css') }}">
 </head>
-<body class="lookup-body-unique">
+<body class="lookup-body">
 
-    <div class="lookup-wrapper-unique">
+    <div class="lookup-container">
 
         <!-- Header -->
-        <header class="lookup-header-unique">
+        <header class="lookup-header">
             <h1>🔍 Word Lookup</h1>
             <p>Welcome, <span>{{ current_user }}</span> | Score: <span>{{ user_score }}</span></p>
         </header>
 
-        <!-- Search Card -->
-        <div class="lookup-card-unique">
-            <form class="lookup-form-unique" method="POST" action="{{ url_for('lookup') }}">
-                <input type="text" name="word" class="lookup-input-unique" placeholder="Enter a word..." required>
-                <button type="submit" class="lookup-btn-unique">Search</button>
-            </form>
+        <!-- Search Section -->
+        <section class="lookup-card">
+            <div class="lookup-form">
+                <input type="text" id="wordInput" placeholder="Enter a word..." required>
+                <button id="lookupBtn">Search</button>
+            </div>
 
-            {% if word %}
-            <div class="lookup-result-unique">
-                <h2 class="lookup-word-unique">{{ word }}</h2>
-                <div class="lookup-boxes-unique">
+            <!-- Loader -->
+            <div id="loader" class="loader hidden">⏳ Fetching...</div>
 
-                    <div class="lookup-box-unique">
+            <!-- Results -->
+            <div id="resultBox" class="lookup-result hidden">
+                <h2 id="wordTitle"></h2>
+
+                <div class="lookup-boxes">
+                    <div class="lookup-box">
                         <h3>Meaning</h3>
-                        <p>{{ meaning }}</p>
+                        <p id="meaning"></p>
                     </div>
-
-                    <div class="lookup-box-unique">
+                    <div class="lookup-box">
                         <h3>Synonyms</h3>
-                        <p>{{ synonyms }}</p>
+                        <p id="synonyms"></p>
                     </div>
-
-                    <div class="lookup-box-unique">
+                    <div class="lookup-box">
                         <h3>Antonyms</h3>
-                        <p>{{ antonyms }}</p>
+                        <p id="antonyms"></p>
                     </div>
-
                 </div>
             </div>
-            {% endif %}
 
-            <a href="{{ url_for('index') }}" class="lookup-back-btn-unique">⬅ Back to Menu</a>
-        </div>
+            <a href="{{ url_for('index') }}" class="back-btn">⬅ Back to Menu</a>
+        </section>
 
-        <footer class="lookup-footer-unique">
+        <!-- Footer -->
+        <footer class="lookup-footer">
             <p>© 2025 Vocabulary App | Enhance your language every day</p>
         </footer>
-
     </div>
 
+    <script src="{{ url_for('static', filename='lookup.js') }}"></script>
 </body>
 </html>

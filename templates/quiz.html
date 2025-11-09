@@ -33,7 +33,7 @@
                 </div>
             </div>
 
-            <!-- If no quiz selected -->
+            <!-- Quiz Choice -->
             {% if not quiz %}
             <div class="qz-quiz-choice">
                 <h2>Choose number of questions:</h2>
@@ -61,9 +61,6 @@
         let userScore = {{ user_score }};
     </script>
     <script src="{{ url_for('static', filename='quiz.js') }}"></script>
-    <script>
-        loadQuestion();
-    </script>
     {% endif %}
 </body>
 </html>

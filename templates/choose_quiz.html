@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Choose Quiz</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='choose_quiz.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body class="qz-body">
     <header class="qz-header">
@@ -12,10 +13,10 @@
 
     <main class="qz-main">
         <div class="qz-container">
-            <h2>Choose number of questions:</h2>
+            <h2 class="qz-subtitle">Choose the Number of Questions</h2>
             <div class="qz-choice-buttons">
                 {% for opt in QUIZ_OPTIONS %}
-                    <a href="{{ url_for('quiz') }}?num={{ opt }}">
+                    <a href="{{ url_for('quiz') }}?num={{ opt }}" class="qz-link">
                         <button class="qz-choice-btn">{{ opt }} Questions</button>
                     </a>
                 {% endfor %}
@@ -24,7 +25,7 @@
     </main>
 
     <footer class="qz-footer">
-        © 2025 Vocabulary Quiz
+        <p>© 2025 Vocabulary Quiz | Sharpen your mind 🧩</p>
     </footer>
 </body>
 </html>

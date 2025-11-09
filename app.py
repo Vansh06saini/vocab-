@@ -1,10 +1,10 @@
 # app.py
 from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
-from data_manager import save_users
+from data_manager import save_users, load_users
 from config import QUIZ_OPTIONS
-
 from vocabulary_bot import VocabularyBot
 import json
+import time
 
 app = Flask(__name__)
 app.secret_key = "supersecretkey"  # Required for sessions
@@ -90,11 +90,12 @@ def quiz():
     username = session['username']
     user_score = bot.users.get(username, {}).get('score', 0)
 
-    # Get number of questions from query param
     num_questions = request.args.get('num', type=int)
     quiz_data = []
+    start_time = time.time()
     if num_questions:
         quiz_data = bot.create_quiz(num_questions)
+    print(time.time()-start_time, "=======time")
 
     return render_template(
         'quiz.html',
@@ -110,21 +111,50 @@ def submit_quiz():
     if 'username' not in session:
         return jsonify({'error': 'Not logged in'}), 401
 
-    data = request.json
+    data = request.get_json(force=True)
+    word = data.get('word', '').strip().lower()
+    is_correct = data.get('correct', False)
     username = session['username']
-    user = bot.users.get(username)
 
+    print(f"DEBUG: Received submit for '{word}' (correct={is_correct}) from {username}")
+
+    # Load users from file (ensures we’re using latest data)
+    users = load_users()
+
+    # Ensure the current user exists in file data
+    user = users.get(username)
     if not user:
-        return jsonify({'error': 'User not found'}), 404
+        print("DEBUG: user not found in users.csv, creating new entry")
+        user = {'password': 'unknown', 'score': 0, 'incorrect_words': {}}
 
-    # Update score based on correctness
-    if data.get('correct'):
+    if 'incorrect_words' not in user:
+        user['incorrect_words'] = {}
+
+    # --- Update score and track wrong words ---
+    if is_correct:
         user['score'] += 5
+        if word in user['incorrect_words']:
+            user['incorrect_words'][word] -= 1
+            if user['incorrect_words'][word] <= 0:
+                del user['incorrect_words'][word]
     else:
         user['score'] -= 1
+        user['incorrect_words'][word] = user['incorrect_words'].get(word, 0) + 1
 
-    save_users(bot.users)
-    return jsonify({'success': True, 'score': user['score']})
+    # --- Update user data ---
+    users[username] = user
+
+    # --- Save to users.csv ---
+    save_users(users)
+    bot.users = users  # ✅ keep VocabularyBot memory synced
+
+    print("DEBUG: Saved users.csv successfully for", username)
+
+    return jsonify({
+        'success': True,
+        'score': user['score'],
+        'incorrect_words': user['incorrect_words']
+    })
 
 # --- Lookup Word ---
 @app.route('/lookup', methods=['GET', 'POST'])
@@ -134,16 +164,20 @@ def lookup():
 
     username = session['username']
     user_score = bot.users.get(username, {}).get('score', 0)
-    word = meaning = synonyms = antonyms = None
 
     if request.method == 'POST':
-        word = request.form['word'].strip()
-        data = bot.display_lookup_menu(word)  # ✅ Use the refactored method
+        word = request.json.get('word', '').strip()
+        if not word:
+            return jsonify({'error': 'No word provided.'}), 400
 
-        # Parse the returned text
+        data = bot.display_lookup_menu(word)
+        if not data:
+            return jsonify({'error': 'Word not found or network error.'}), 404
+
+        # Extract meaning, synonyms, antonyms
         lines = data.split('\n')
         meaning_lines = [l for l in lines if not l.startswith("Synonyms:") and not l.startswith("Antonyms:")]
-        meaning = "\n".join(meaning_lines)
+        meaning = "\n".join(meaning_lines).strip()
 
         synonyms_line = next((l for l in lines if l.startswith("Synonyms:")), "Synonyms: None")
         antonyms_line = next((l for l in lines if l.startswith("Antonyms:")), "Antonyms: None")
@@ -151,27 +185,28 @@ def lookup():
         synonyms = synonyms_line.replace("Synonyms:", "").strip()
         antonyms = antonyms_line.replace("Antonyms:", "").strip()
 
-    return render_template(
-        'lookup.html',
-        current_user=username,
-        user_score=user_score,
-        word=word,
-        meaning=meaning,
-        synonyms=synonyms,
-        antonyms=antonyms
-    )
+        return jsonify({
+            'word': word,
+            'meaning': meaning,
+            'synonyms': synonyms,
+            'antonyms': antonyms
+        })
+
+    return render_template('lookup.html', current_user=username, user_score=user_score)
+
 # --- Feedback ---
-@app.route('/feedback')
+@app.route("/feedback")
 def feedback():
     if 'username' not in session:
-        return redirect(url_for('login'))
+        return redirect(url_for("login"))
 
-    username = session['username']
-    user_score = bot.users.get(username, {}).get('score', 0)
-    missed_words = bot.users[username]['incorrect_words']
-    missed_sorted = sorted(missed_words.items(), key=lambda x: x[1], reverse=True)[:10]
+    username = session["username"]
+    users = load_users()  # Load fresh data from users.csv
+    user_data = users.get(username, {})
+    wrong_words = user_data.get("incorrect_words", {})
 
-    return render_template('feedback.html', current_user=username, user_score=user_score, missed_words=missed_sorted)
+    sorted_words = sorted(wrong_words.items(), key=lambda x: x[1], reverse=True)
+    return render_template("feedback.html", username=username, wrong_words=sorted_words)
 
 # --- Leaderboard ---
 @app.route('/leaderboard')

@@ -1,52 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Feedback — Most Missed Words</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='feedback.css') }}">
+    <meta charset="UTF-8">
+    <title>Feedback - Vocabulary App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='feedback.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
-<body class="fb-unique-body">
-  <div class="fb-unique-shell">
-
-    <header class="fb-unique-header">
-      <div class="fb-unique-head-left">
-        <h1 class="fb-unique-title">💬 Most Missed Words</h1>
-        <p class="fb-unique-sub">Practice these words — you missed them most often.</p>
-      </div>
-
-      <div class="fb-unique-head-right">
-        <p class="fb-unique-user">User: <strong>{{ current_user }}</strong></p>
-        <a href="{{ url_for('index') }}" class="fb-unique-back">⬅ Back to Menu</a>
-      </div>
+<body>
+    <header class="fb-header">
+        <div class="fb-header-content">
+            <h1>📚 Feedback Summary</h1>
+            <p>Hello, <span class="username">{{ username }}</span>! Here’s how you’ve been doing.</p>
+        </div>
+        <a href="{{ url_for('index') }}" class="fb-btn-home">🏠 Home</a>
     </header>
 
-    <main class="fb-unique-main">
-      {% if not missed_words %}
-        <div class="fb-unique-empty">
-          <p>No challenging words yet — great job! 🎉</p>
-          <p class="fb-unique-empty-sub">Take a quiz to find out which words to practice.</p>
+    <main class="fb-main">
+        {% if wrong_words %}
+        <div class="fb-card">
+            <h2>❌ Words You Missed</h2>
+            <p class="fb-subtext">Review them to improve your vocabulary!</p>
+
+            <table class="fb-table">
+                <thead>
+                    <tr>
+                        <th>Word</th>
+                        <th>Times Missed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for word, count in wrong_words %}
+                    <tr>
+                        <td class="fb-word">{{ word }}</td>
+                        <td class="fb-count">{{ count }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
-      {% else %}
-        <section class="fb-unique-list-wrap">
-          <ol class="fb-unique-list">
-            {% for word, count in missed_words %}
-              <li class="fb-unique-item">
-                <div class="fb-unique-item-word">{{ word }}</div>
-                <div class="fb-unique-item-count">missed <strong>{{ count }}</strong> time{{ "s" if count != 1 else "" }}</div>
-              </li>
-            {% endfor %}
-          </ol>
-          <p class="fb-unique-note">Showing top {{ missed_words|length }} word{{ "s" if missed_words|length != 1 else "" }} — keep practicing!</p>
-        </section>
-      {% endif %}
+        {% else %}
+        <div class="fb-empty-card">
+            <h2>🎉 Excellent!</h2>
+            <p>You have no missed words yet — keep it up!</p>
+        </div>
+        {% endif %}
     </main>
 
-    <footer class="fb-unique-footer">
-      <p>© 2025 Vocabulary App</p>
+    <footer class="fb-footer">
+        <p>© 2025 Vocabulary App | Built to Learn Smarter Everyday</p>
     </footer>
-  </div>
-  <script src="{{ url_for('static', filename='feedback.js') }}"></script>
-
 </body>
 </html>

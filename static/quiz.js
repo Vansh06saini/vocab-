@@ -1,3 +1,9 @@
+document.addEventListener("DOMContentLoaded", () => {
+    if (questions.length > 0) {
+        loadQuestion();
+    }
+});
+
 function loadQuestion() {
     if (currentIndex >= questions.length) {
         alert(`🎯 Quiz finished! Your total score: ${userScore}`);
@@ -22,17 +28,19 @@ function loadQuestion() {
         btn.disabled = false;
         btn.classList.remove('correct', 'wrong');
 
-        btn.onclick = () => checkAnswer(btn, optionText, q.correct);
+        btn.onclick = () => checkAnswer(btn, optionText, q.correct, q.word);
     });
 }
 
-function checkAnswer(clickedButton, chosenAnswer, correctAnswer) {
+function checkAnswer(clickedButton, chosenAnswer, correctAnswer, word) {
     const buttons = document.querySelectorAll('.qz-option');
     buttons.forEach(b => b.disabled = true);
 
+    let isCorrect = false;
     if (chosenAnswer === correctAnswer) {
         clickedButton.classList.add('correct');
         userScore += 5;
+        isCorrect = true;
     } else {
         clickedButton.classList.add('wrong');
         userScore -= 1;
@@ -45,12 +53,13 @@ function checkAnswer(clickedButton, chosenAnswer, correctAnswer) {
 
     document.getElementById('score-display').textContent = userScore;
 
+    // Send result to backend
     fetch("/quiz/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-            question_index: currentIndex,
-            correct: chosenAnswer === correctAnswer
+            word: word.toLowerCase(),
+            correct: isCorrect
         })
     }).catch(err => console.error("Error submitting:", err));
 }

@@ -1,5 +1,6 @@
 import random
 from collections import defaultdict
+import time
 
 # Import external modules
 from config import QUIZ_OPTIONS
@@ -162,31 +163,33 @@ class VocabularyBot:
 
     # --- Lookup ---
     def display_lookup_menu(self, word=None):
-        word = input("\nEnter word to look up: ").strip()
         if not word:
-            return
-            
-        data = api_lookup(word) # Use imported api_lookup
-        
+            return None
+
+        data = api_lookup(word)
         if not data:
-            print("Word not found.")
-            return
-            
+            return None
+
         meanings = data.get('meanings', [])
-        print(f"\n--- {word.upper()} ---")
-        
+        result = [f"--- {word.upper()} ---"]
+
+        # Gather meanings
         for m in meanings:
             pos = m.get('partOfSpeech', '')
             defs = m.get('definitions', [])
             if defs:
-                print(f"({pos}) {defs[0]['definition']}")
-                
-        # Aggregate synonyms and antonyms from all meanings
+                result.append(f"({pos}) {defs[0].get('definition', 'No definition available')}")
+
+        # Collect synonyms & antonyms
         syns = set(s for m in meanings for s in m.get('synonyms', []))
         ants = set(a for m in meanings for a in m.get('antonyms', []))
-        
-        print("\nSynonyms:", ', '.join(list(syns)[:10]) or "None")
-        print("Antonyms:", ', '.join(list(ants)[:10]) or "None")
+
+        result.append("\nSynonyms: " + (', '.join(list(syns)[:10]) or "None"))
+        result.append("Antonyms: " + (', '.join(list(ants)[:10]) or "None"))
+
+        # ✅ Return as a single string (Flask will use this)
+        return "\n".join(result)
+
 
     # --- Feedback & Leaderboard ---
     def display_feedback(self):
@@ -199,6 +202,7 @@ class VocabularyBot:
         # Sort by count, descending, and show top 5
         for w, c in sorted(wrong.items(), key=lambda x: x[1], reverse=True)[:5]:
             print(f"{w} (missed {c} times)")
+
 
     def display_leaderboard(self):
         print("\n--- Leaderboard ---")
